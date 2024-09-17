@@ -1,6 +1,5 @@
-const express = require("express");
-const endpointRouter = require("./routes/endpointRouter");
-const cors = require("cors");
+import express from "express";
+import endpointRouter from "./routes/endpointRouter.js";
 
 const app = express();
 

@@ -2,6 +2,7 @@
   "name": "bin_5",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "author": "",
   "license": "ISC",
   "description": "",
@@ -10,7 +11,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
+    "dev": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 import express from "express";
-import endpointService from "../services/endpointService";
+import endpointService from "../services/endpointServices.js";
 
 const router = express.Router();
 
@@ -59,4 +59,4 @@ router.delete("/:endpoint_id", (req, res) => {
 //   }
 // })
 
-export default router;
+export router;
