@@ -95,7 +95,7 @@ const deleteAllRequests = async (endpoint_id) => {
   }
 };
 
-module.exports = {
+export default {
   getAllRequests,
   getRequestById,
   createEndpoint,

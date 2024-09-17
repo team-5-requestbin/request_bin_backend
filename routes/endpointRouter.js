@@ -59,4 +59,4 @@ router.delete("/:endpoint_id", (req, res) => {
 //   }
 // })
 
-export router;
+export default router;
