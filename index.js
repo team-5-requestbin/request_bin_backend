@@ -11,23 +11,37 @@ app.get("/api/ping", (_req, res) => {
 app.use("/api", endpointRouter);
 
 // catch-all for external HTTP requests that need to be captured
-app.all("/", (_req, res) => {
+app.all("/", (req, res) => {
+  // call externalService and pass in request body (req)
+  // receiving = capture and put into 2 databases
   // capture all HTTP Requests
+  // generate request hash
+  // parse HTTP request method, path, body
+  // INSERT into Mongo endpoint_hash, request_hash, and request_raw
+  // INSERT into Postgres request_hash, method, path, body
+  // respond to external site with status 200 or 400
 });
 
-const PORT = 3001;
+const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-// domain.com/89a8d98xc9x3/
-// domain.com/89a8d98xc9x3/view/
+// Hashes are all alphanumeric strings, length 8
+// - endpoint_hash
+// - request_hash
 
-// domain.com/api/89a8d98xc9x3
+// Jesse & Wook - API proposal:
+// domain.com/89a8d98x/
+// domain.com/89a8d98x/view/
+
 // base_api_url = /api/
+// (domain.com/api/89a8d98x)
 
-// .get('/:endpoint_id')
-// .get('/:endpoint_id/:req_id')
+// .get('/:endpoint_hash')
+// .get('/:endpoint_hash/exists')
+// .get('/:endpoint_hash/:request_hash') => we need them to keep request_ids in the UI for when they want to get a single HTTP Request by ID
 // .post('/create')
-// .delete('/:endpoint_id')
-// .delete('/:endpoint_id/:req_id') - optional
+// .delete('/:endpoint_hash')
+
+// # .delete('/:endpoint_hash/:request_hash') - optional
