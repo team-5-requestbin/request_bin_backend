@@ -120,7 +120,8 @@ const deleteAllRequests = async (endpoint_hash) => {
     //   in the endpoints table
     // change below deletes endpoint_hash from endpoints table, triggering
     //   on delete cascade to delete from http_requests table
-    text: `DELETE FROM endpoints WHERE endpoint_hash = '${endpoint_hash}'`,
+    // text: `DELETE FROM endpoints WHERE endpoint_hash = '${endpoint_hash}'`,
+    text: `DELETE FROM http_requests WHERE endpoint_hash = '${endpoint_hash}'`,
   };
 
   try {
