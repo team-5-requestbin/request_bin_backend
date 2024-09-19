@@ -22,6 +22,30 @@ const router = express.Router();
 //   }
 // });
 
+router.get("/:endpoint_hash/exists", (req, res) => {
+  try {
+    const endpoint_hash = req.params.endpoint_hash;
+    const endpointPromise = endpointService.endpointExists(endpoint_hash);
+    // endpointExists service returns a promise!
+    endpointPromise.then((result) => {
+      if (result) {
+        const data = { exists: true };
+        res.status(200).json(data);
+      } else {
+        // doesn't make sense to respond with a data payload as the 204 status
+        //   indicates that no response payload body will be present
+        // const data = { exists: false };
+        // res.status(204).json(data);
+        res.status(204);
+      }
+    })
+  } catch (error) {
+    res.status(404).json({
+      error: "Error checking if endpoint exists",
+    });
+  }
+});
+
 router.get("/:endpoint_hash", (req, res) => {
   try {
     const endpoint_hash = req.params.endpoint_hash;
