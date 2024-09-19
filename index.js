@@ -1,5 +1,6 @@
 import express from "express";
-import endpointRouter from "./routes/endpointRouter.js";
+import internalRouter from "./routes/internalRouter.js";
+import externalRouter from "./routes/externalRouter.js";
 
 const app = express();
 
@@ -8,7 +9,14 @@ app.get("/api/ping", (_req, res) => {
   res.send("pong");
 });
 
-app.use("/api", endpointRouter);
+app.use("/api", internalRouter);
+
+// perhaps it might be an unneccessary load on the backend to actually respond to
+//   all HTTP requests that come in?  what if we only captured the ones that have
+//   proper paths?  
+// experimenting with a external router and service...
+
+app.use("/bin", externalRouter);
 
 // catch-all for external HTTP requests that need to be captured
 app.all("/", (req, res) => {

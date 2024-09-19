@@ -1,9 +1,3 @@
-// const getAllRequests(endpoint_hash);
-// const getRequestById(endpoint_hash, request_id);
-// const newEndpoint();
-// const deleteAllRequests(endpoint_hash);
-// const deleteRequestById(endpoint_hash, request_id);
-
 import pg from "pg";
 const { Client } = pg;
 import "dotenv/config";

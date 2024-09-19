@@ -1,12 +1,12 @@
 import express from "express";
-import endpointService from "../services/endpointServices.js";
+import internalServices from "../services/internalServices.js";
 
 const router = express.Router();
 
 // router.get("/:endpoint_hash/exists", (req, res) => {
 //   try {
 //     const endpoint_hash = req.params.endpoint_hash;
-//     const endpointFound = endpointService.endpointExists(endpoint_hash);
+//     const endpointFound = internalServices.endpointExists(endpoint_hash);
 //     if (endpointFound) {
 //       const data = { exists: true };
 //       res.status(200).json(data);
@@ -25,7 +25,7 @@ const router = express.Router();
 router.get("/:endpoint_hash/exists", (req, res) => {
   try {
     const endpoint_hash = req.params.endpoint_hash;
-    const endpointPromise = endpointService.endpointExists(endpoint_hash);
+    const endpointPromise = internalServices.endpointExists(endpoint_hash);
     // endpointExists service returns a promise!
     endpointPromise.then((result) => {
       if (result) {
@@ -50,7 +50,7 @@ router.get("/:endpoint_hash", (req, res) => {
   try {
     const endpoint_hash = req.params.endpoint_hash;
     // console.log(`getAllRequests passing endpoint_hash: ${endpoint_hash}`);
-    const dataPromise = endpointService.getAllRequests(endpoint_hash);
+    const dataPromise = internalServices.getAllRequests(endpoint_hash);
     dataPromise.then((result) => {
       // console.log(`getAllRequests result is = ${result}`)
       res.json(result)
@@ -66,7 +66,7 @@ router.get("/:endpoint_hash", (req, res) => {
 router.get("/:endpoint_hash/:request_hash", (req, res) => {
   try {
     const request_hash = req.params.request_hash;
-    const dataPromise = endpointService.getRequestById(request_hash);
+    const dataPromise = internalServices.getRequestById(request_hash);
     dataPromise.then((result) => {
       res.json(result)
     })
@@ -79,7 +79,7 @@ router.get("/:endpoint_hash/:request_hash", (req, res) => {
 
 router.post("/create", (_req, res) => {
   try {
-    const hashPromise = endpointService.createEndpoint();
+    const hashPromise = internalServices.createEndpoint();
     // console.log("created new endpoint_hash", endpoint_hash);
     hashPromise.then((result) => {res.json(result)});
     // res.json(endpoint_hash);
@@ -91,7 +91,7 @@ router.post("/create", (_req, res) => {
 router.delete("/:endpoint_hash", (req, res) => {
   try {
     const endpoint_hash = req.params.endpoint_hash;
-    endpointService.deleteAllRequests(endpoint_hash);
+    internalServices.deleteAllRequests(endpoint_hash);
     res.status(204).end();
   } catch (error) {
     res.status(404).json({ error: "Delete error, resource not found" });
@@ -103,7 +103,7 @@ router.delete("/:endpoint_hash", (req, res) => {
 //   try {
 //     const endpoint_hash = req.params.endpoint_hash;
 //     const request_id = req.params.request_id;
-//     endpointService.deleteRequestById(endpoint_hash, request_id);
+//     internalServices.deleteRequestById(endpoint_hash, request_id);
 //     res.status(204).end();
 //   } catch (error) {
 //     res.status(404).json({error: 'Delete error, resource not found'})
