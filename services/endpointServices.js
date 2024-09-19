@@ -39,12 +39,12 @@ function generateRandomHash() {
 
 const getAllRequests = async (endpoint_hash) => {
   console.log(
-    `running getAllRequests in services with endpoint: ${endpoint_hash}`
+    `running getAllRequests in services with endpoint: '${endpoint_hash}'`
   );
 
   const query = {
-    name: "fetch all data",
-    text: `SELECT request_hash, timestamp, method, path FROM http_requests WHERE endpoint_hash = ${endpoint_hash}`,
+    name: `fetch all data for ${endpoint_hash}`,
+    text: `SELECT request_hash, received_at, method, path FROM http_requests WHERE endpoint_hash = '${endpoint_hash}'`,
   };
 
   try {
@@ -52,6 +52,7 @@ const getAllRequests = async (endpoint_hash) => {
     console.log(`data just after services request: ${data}`);
 
     return data.rows;
+    // return dataPromise.then((result) => result.rows);
   } catch (error) {
     console.error(error.message);
     return {
@@ -62,50 +63,52 @@ const getAllRequests = async (endpoint_hash) => {
 
 const getRequestById = async (request_hash) => {
   const query = {
-    name: "fetch one http request",
-    text: `SELECT * FROM http_requests WHERE request_hash = ${request_hash}`,
+    name: `fetch one http request ${request_hash}`,
+    text: `SELECT * FROM http_requests WHERE request_hash = '${request_hash}'`,
   };
 
   try {
     const data = await client.query(query);
-    res.send(data.rows[0]);
+    return data.rows[0];
+    // res.send(data.rows[0]);
   } catch (error) {
     console.error(error.message);
     res.send(error.message).status(404);
   }
 };
 
-const endpointExists = async (endpoint_hash) => {
-  console.log(
-    `running endpointExists in services with endpoint: ${endpoint_hash}`
-  );
+// const endpointExists = async (endpoint_hash) => {
+//   console.log(
+//     `running endpointExists in services with endpoint: ${endpoint_hash}`
+//   );
 
-  const query = {
-    name: "check endpoint existence",
-    text: `SELECT * FROM http_requests WHERE endpoint_hash = ${endpoint_hash}`,
-  };
+//   const query = {
+//     name: "check endpoint existence",
+//     text: `SELECT * FROM http_requests WHERE endpoint_hash = ${endpoint_hash}`,
+//   };
 
-  try {
-    const data = await client.query(query);
+//   try {
+//     const data = await client.query(query);
 
-    return data.rows;
-  } catch (error) {
-    console.error(error.message);
-    return { error: `error checking existence of endpoint: ${endpoint_hash}` };
-  }
-};
+//     return data.rows;
+//   } catch (error) {
+//     console.error(error.message);
+//     return { error: `error checking existence of endpoint: ${endpoint_hash}` };
+//   }
+// };
 
 const createEndpoint = async () => {
   const random_hash = generateRandomHash();
 
   const query = {
-    name: "create_new_endpoint",
-    text: `INSERT INTO endpoints (endpoint_hash) VALUES(${random_hash}) RETURNING endpoint_hash`,
+    name: `create_new_endpoint ${random_hash}`,
+    text: `INSERT INTO endpoints (endpoint_hash) VALUES('${random_hash}') RETURNING endpoint_hash`,
   };
 
   try {
     const data = await client.query(query);
-    res.status(201).send(data.rows[0]);
+    return data.rows[0];
+    // res.status(201).send(data.rows[0]);
   } catch (error) {
     console.error(error.message);
     res.send(error.message).status(500);
@@ -115,12 +118,12 @@ const createEndpoint = async () => {
 const deleteAllRequests = async (endpoint_hash) => {
   const query = {
     name: "deleting_note",
-    text: `DELETE FROM http_requests WHERE endpoint_hash = ${endpoint_hash}`,
+    text: `DELETE FROM http_requests WHERE endpoint_hash = '${endpoint_hash}'`,
   };
 
   try {
     await client.query(query);
-    res.status(204).end();
+    // res.status(204).end();
   } catch (error) {
     console.error(error.message).status(404);
   }
