@@ -36,7 +36,7 @@ router.get("/:endpoint_hash/exists", (req, res) => {
         //   indicates that no response payload body will be present
         // const data = { exists: false };
         // res.status(204).json(data);
-        res.status(204).end();
+        res.status(404).send({ exists: false });
       }
     })
   } catch (error) {

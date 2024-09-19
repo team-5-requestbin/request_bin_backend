@@ -1,8 +1,14 @@
 import express from "express";
+import cors from "cors";
 import internalRouter from "./routes/internalRouter.js";
 import externalRouter from "./routes/externalRouter.js";
 
 const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+// app.use("/", express.static(__dirname + "/public"));
 
 app.get("/api/ping", (_req, res) => {
   console.log("someone pinged here");
@@ -10,6 +16,7 @@ app.get("/api/ping", (_req, res) => {
 });
 
 app.use("/api", internalRouter);
+
 
 // perhaps it might be an unneccessary load on the backend to actually respond to
 //   all HTTP requests that come in?  what if we only captured the ones that have
