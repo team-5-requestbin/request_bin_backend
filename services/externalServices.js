@@ -55,11 +55,14 @@ const captureRequests = async (endpoint_hash, req) => {
         const request_hash = generateRandomHash();
         // console.log(request_hash);
         const request_header = JSON.stringify(req.headers);
+        const request_body = JSON.stringify(req.body);
+        const request_query = JSON.stringify(req.query);
+        const request_path = req.path.slice(9);
 
         const query = {
           name: `create_new_http_request ${request_hash}`,
-          text: 'INSERT INTO http_requests (method, headers, body, request_hash, endpoint_hash)' +
-                `VALUES('${req.method}', '${request_header}', '${req.body}', '${request_hash}', '${endpoint_hash}')` +
+          text: 'INSERT INTO http_requests (method, headers, body, request_hash, endpoint_hash, path, query_params)' +
+                `VALUES('${req.method}', '${request_header}', '${request_body}', '${request_hash}', '${endpoint_hash}', '${request_path}', '${request_query}')` +
                 'RETURNING endpoint_hash, request_hash',
         };
     
