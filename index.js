@@ -9,6 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/", express.static('dist'));
+app.use("/:id/view", express.static('dist')); 
 
 app.get("/api/ping", (_req, res) => {
   console.log("someone pinged here");
